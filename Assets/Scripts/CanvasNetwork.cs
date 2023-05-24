@@ -45,10 +45,18 @@ public class CanvasNetwork : NetworkBehaviour
 
             if (NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient)
             {
+                /*   Debug.Log("se mueve de servidor");
+                  foreach (ulong uid in NetworkManager.Singleton.ConnectedClientsIds)
+                  {
+                      Debug.Log("dentro de bucle");
+                      NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<PlayerNetwork>().ChangePositionCenter();
+                  }
+                */
                 foreach (NetworkClient uid in NetworkManager.Singleton.ConnectedClientsList)
-                {
-                    uid.PlayerObject.GetComponent<PlayerNetwork>().ChangePositionCenterClientRpc();
-                }
+                    {
+                        uid.PlayerObject.GetComponent<PlayerNetwork>().ChangePositionCenterClientRpc();
+                    }
+
 
             }
             else

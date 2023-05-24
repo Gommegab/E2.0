@@ -11,6 +11,8 @@ public class PlayerNetwork : NetworkBehaviour
     public List<Color> colorequipo2 = new List<Color>();//lista colores equipo azul
     public NetworkVariable<Color> ColorEquipo = new NetworkVariable<Color>(Color.white); //variable que indica el color que tiene el jugador
 
+    
+
 
 
     public override void OnNetworkSpawn()
@@ -18,7 +20,9 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsOwner)
         {
             ChangePositionCenter();
+            
         }
+        ColorEquipo.OnValueChanged += ChangeColor;
     }
     private void Update()
     {
@@ -43,6 +47,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     public void ChangePositionCenter()
     {
+        Debug.Log("dda");
         this.transform.position = new Vector3(Random.Range(-20f, 20f), 1f, Random.Range(-70f, 70f));
     }
 
@@ -67,11 +72,10 @@ public class PlayerNetwork : NetworkBehaviour
                 ColorEquipo.Value = colorequipo2[Random.Range(0, colorequipo2.Count)];
             }
         }
-        ChangeColorClientRpc();
+        //ChangeColorClientRpc();
     }
 
-    [ClientRpc]
-    void ChangeColorClientRpc()
+     void ChangeColor(Color old,Color necolor)
     {
         GetComponent<MeshRenderer>().material.color = ColorEquipo.Value;
     }
